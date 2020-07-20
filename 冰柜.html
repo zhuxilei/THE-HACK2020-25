@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item List</title>
+    <style>
+        .item{
+            padding-left:8px;
+            margin-top: 2px;
+            margin-bottom:2px;
+            margin-left:2px;
+            margin-right: 2px;
+            
+
+        }
+        html,body{
+    margin:0;
+    padding:0;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+body{
+    background-color:white;
+}
+.heading{
+    border:1px solid black;
+    font-size: 18px;
+    margin-top: 0;
+    background-color: bisque;
+
+}
+.todobox{
+    margin-left: auto;
+    margin-right: auto;
+    width:80%;
+    border:1px solid black;
+    margin-top: 50px;
+    box-shadow: 10px 5px 5px red;;
+    background-color: white;
+}
+
+
+
+.title{
+    background-color: #A8D7FA;
+    width:60%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Times New Roman', Times, serif;
+}
+h1{
+    background-color: bisque;
+    padding-top: 30px;
+    padding-bottom: 40px;
+}
+
+    </style>
+</head>
+<body>
+    <form id="location-form">
+        <div class="form-group title">
+            <span id="before">Today's weather in</span>
+            <select name="cars" id="location" form="carform">
+                <option value="Los+Angeles">Shanghai</option>
+                <option value="San+Francisco">San Francisco</option>
+                <option value="San+Diego">San Diego</option>
+            </select>
+            <span id="after"></span>
+          </div>
+    </form>
+    
+    <div class="todobox">
+        <h1>欢迎使用智能共享冷冻柜</h1>
+        <font color="#a9e4f8" size=4;>科创中心 00001号机柜&nbsp;</font>
+        <div class="item">
+            <h3>1号</h3>
+            <p>容积：5 升</p>
+            <p>状态：<a style="color:red">使用中</a></p>
+            <p>预计：<span class="date">1</span> 小时后 可使用</p>
+            <button type="button" class="btn btn-danger" onclick="btnAction1()" ><span class="date">取件</span></button>
+        </div>
+        
+        <hr>
+
+        <div class="item">
+            <h3>2号</h3>
+            <p>容积：3 升</p>
+            <p>状态：<a style="color:green">未在使用</a></p>
+            <button type="button" class="btn btn-danger" onclick="btnAction2()" ><span class="date">开启</span></button>
+        </div>
+
+        <hr>
+        
+        <div class="item">
+            <h3>3号</h3>
+            <p>容积：10 升</p>
+            <p>状态：<a style="color:green">未在使用</a></p>
+            <button type="button" class="btn btn-danger" onclick="btnAction3()" ><span class="date">开启</span></button>
+        </div>
+
+        
+    </div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="   crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/6a82a840ee.js" crossorigin="anonymous"></script> 
+<script>
+        function btnAction1()
+        { 
+            alert("请输入取件码：");
+        }
+</script> 
+<script>
+        function btnAction2()
+        { 
+            alert("您正在开启2号柜");
+        }
+</script> 
+<script>
+        function btnAction3()
+        { 
+            alert("您正在开启3号柜");
+        }
+</script> 
+<script>
+    $("body").css("backgroundColor","lightgreen");
+if(window.localStorage.getItem("location") != null){
+    let address=window.localStorage.getItem("location");
+    let newad="";
+    for(let i=0;i<address.length;i++){
+        
+        newad+=address[i];
+        
+    }
+    console.log(newad);
+    $("#location").val(newad);
+
+    $.ajax({
+        method: "GET",
+        url:"https://api.weatherbit.io/v2.0/current?city="+address+",CA&key=99483e4de410460bbfebc63787746477&units=I",
+    })
+    .done(function(data){
+        console.log(data);
+        displayResults(data);
+    })
+    .fail(function(result){
+        console.log(result.statusCode);
+        console.log("ERROR!!!!");
+    })
+    
+}
+else{
+    $.ajax({
+        method: "GET",
+        url:"https://api.weatherbit.io/v2.0/current?city="+"Los+Angeles,CA&key=99483e4de410460bbfebc63787746477&units=I",
+    })
+    .done(function(data){
+        console.log(data);
+        displayResults(data);
+    })
+    .fail(function(result){
+        console.log(result.statusCode);
+        console.log("ERROR!!!!");
+    })
+    
+
+}
+
+
+
+$("#location-form").on("change",function(event){
+    event.preventDefault();
+    let address=$("#location").val();
+    window.localStorage.setItem("location", address);
+    $.ajax({
+        method: "GET",
+        url:"https://api.weatherbit.io/v2.0/current?city="+address+",CA&key=99483e4de410460bbfebc63787746477&units=I",
+    })
+    .done(function(data){
+        console.log(data);
+        displayResults(data);
+    })
+    .fail(function(result){
+        console.log(result.statusCode);
+        console.log("ERROR!!!!");
+    })
+
+    return false;
+
+})
+
+
+function displayResults(response){
+    let cloud1="";
+    if(response.data[0].clouds<50){
+        cloud1="Clear Sky";
+
+    }
+    else{
+        cloud1="cloudy sky"
+    }
+    
+    $("#after").text(+response.data[0].temp+"° "+cloud1+". Feels like " + response.data[0].app_temp+"°");
+    
+}
+
+
+
+let List = document.querySelectorAll(".item");
+for (let i = 0; i<List.length;i++){
+    let days = List[i].querySelector(".date").innerHTML;
+    console.log(days);
+    if(days<3){
+        List[i].style.border = "2px solid red";
+    }
+
+    else if(days>=3 && days<8){
+        List[i].style.border = "2px solid yellow";
+
+    }
+    else{
+        List[i].style.border = "2px solid green";
+    }
+}
+
+let deleteList = document.querySelectorAll(".delete");
+for(let i =0; i<deleteList.length;i++){
+    deleteList[i].onclick = function(){
+        parent = deleteList[i].parentElement;
+        parent.remove();
+    }
+}
+</script>
+</body>
+</html>
